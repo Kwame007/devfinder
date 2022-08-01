@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Card from "../components/Card";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import ProfileDetails from "../components/ProfileDetails";
@@ -6,17 +6,23 @@ import Button from "../components/Button";
 import Notice from "../components/Notice";
 import SearchForm from "../components/SearchForm";
 import useGetUser from "../hook/useGetUser";
-
-// initiall load
-let initialLoad = true;
+import { userContext } from "../store/userContext";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [initialLoad, setInitialLoad] = useState(true);
   const { user, error } = useGetUser(searchQuery);
+
+  const { setTheme, theme } = useContext(userContext);
 
   // get user data
   const handleUserSearch = (search) => {
-    setSearchQuery(search);
+    if (search) {
+      console.log("search is truthy");
+      setInitialLoad(false);
+      setSearchQuery(search);
+    }
+    return;
   };
 
   // construct date
@@ -30,25 +36,34 @@ const Home = () => {
     return `${day}-${month}-${year}`;
   };
 
-  useEffect(() => {
-    // set the search query to the input value
-    handleUserSearch(searchQuery);
-  }, [searchQuery, user]);
-
   console.log(initialLoad);
-  console.log(searchQuery);
+  // console.log(searchQuery);
   console.log(user);
   console.log(error);
+  // console.log(theme);
 
   return (
     <main className="bg-lighter h-screen font-mono ">
       <div className=" px-3 pt-10 md:max-w-3xl md:mx-auto">
         <div className=" flex justify-between items-center">
           <h1 className="font-bold text-lg text-dark">devfinder</h1>
-          <Button className="flex items-center gap-3">
-            <p className="w-1/2 text-xs uppercase">Dark</p>
-            <MoonIcon className="w-5 h-5" />
-          </Button>
+          {theme === "light" ? (
+            <Button
+              className="flex items-center gap-3"
+              onClick={() => setTheme("dark")}
+            >
+              <p className="w-1/2 text-xs uppercase">Dark</p>
+              <MoonIcon className="w-5 h-5" />
+            </Button>
+          ) : (
+            <Button
+              className="flex items-center gap-3"
+              onClick={() => setTheme("light")}
+            >
+              <p className="w-1/2 text-xs uppercase">light</p>
+              <SunIcon className="w-5 h-5" />
+            </Button>
+          )}
         </div>
         <div>
           <SearchForm onSubmit={handleUserSearch} />
@@ -59,12 +74,13 @@ const Home = () => {
               <p className="text-center mx-auto">Find a user 🔍.</p>
             </div>
           )}
+
           {user && <ProfileDetails user={user} getDate={constructDate} />}
-          {/* {!error && user && (
+          {error && !initialLoad && !user && (
             <div className="h-40 flex items-center">
               <p className="text-center mx-auto">User not found 🤧.</p>
             </div>
-          )} */}
+          )}
         </Card>
         <Notice />
       </div>

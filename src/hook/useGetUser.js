@@ -9,6 +9,7 @@ const octokit = new Octokit({
 
 // reducer function
 const userReducer = (state, action) => {
+  console.log(state.loading);
   switch (action.type) {
     case "GET_USER":
       return {
@@ -35,6 +36,8 @@ const useGetUser = (userQuery) => {
   // get user data
   useEffect(() => {
     const getUser = async () => {
+      dispatch({ type: "SET_LOADING", payload: true });
+
       const data = await octokit.request("GET /users/{username}", {
         username: `${userQuery}`,
       });
@@ -42,6 +45,7 @@ const useGetUser = (userQuery) => {
       //  dispatch action to update user state
       dispatch({ type: "GET_USER", payload: data.data });
     };
+
     getUser().catch((error) => {
       dispatch({ type: "ERROR", payload: error.message });
     });

@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/solid";
 
 const ProfileDetails = ({ user, getDate }) => {
-  console.log(user);
+  // console.log(user);
   return (
     <section className="p-2">
       <div>

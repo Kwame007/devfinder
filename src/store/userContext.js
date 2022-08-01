@@ -1,8 +1,9 @@
 import { createContext, useReducer } from "react";
-import useGetUser from "../hook/useGetUser";
+
 // create context for user
 export const userContext = createContext({
   theme: "light",
+  setTheme: () => {},
 });
 
 // user reducer
@@ -25,12 +26,19 @@ const ContextProvider = ({ children }) => {
     theme: "light",
   });
 
-  const { user } = useGetUser(state.searchQuery);
+  //  change theme function
+  const setTheme = (theme) => {
+    dispatch({
+      type: "SET_THEME",
+      payload: theme,
+    });
+  };
 
   return (
     <userContext.Provider
       value={{
-        theme: "light",
+        theme: state.theme,
+        setTheme,
       }}
     >
       {children}
