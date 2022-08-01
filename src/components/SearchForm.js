@@ -26,7 +26,7 @@ const SearchForm = ({ onSubmit }) => {
         <SearchIcon className="absolute bottom-4 left-1 w-5 text-blue-500 md:w-6 md:bottom-5" />
         <Input
           type="text"
-          className="bg-light shadow-md mt-10 w-full h-14 px-8 rounded-2xl   placeholder:text-xs md:placeholder:text-base md:h-16"
+          className="bg-light shadow-md mt-10 w-full h-14 px-8 rounded-2xl focus:outline-blue-500  placeholder:text-xs md:placeholder:text-base md:h-16 dark:bg-dark dark:text-slate-400 dark:outline-none dark:focus:outline-blue-500"
           placeholder="Search GitHub username_"
           value={search}
           onChange={handleChange}

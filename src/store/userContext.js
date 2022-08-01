@@ -1,9 +1,9 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 
 // create context for user
 export const userContext = createContext({
-  theme: "light",
-  setTheme: () => {},
+  theme: null,
+  setTheme: (theme) => {},
 });
 
 // user reducer
@@ -33,6 +33,31 @@ const ContextProvider = ({ children }) => {
       payload: theme,
     });
   };
+
+  // set the theme to user prefered theme
+  useEffect(() => {
+    // check theme onmount
+    if (window.matchMedia("(prefers-color-scheme:dark)").matches) {
+      dispatch({
+        type: "SET_THEME",
+        payload: "dark",
+      });
+    } else {
+      dispatch({
+        type: "SET_THEME",
+        payload: "light",
+      });
+    }
+  }, []);
+
+  // set theme to selected theme
+  useEffect(() => {
+    if (state.theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [state.theme]);
 
   return (
     <userContext.Provider

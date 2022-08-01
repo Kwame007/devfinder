@@ -9,7 +9,6 @@ const octokit = new Octokit({
 
 // reducer function
 const userReducer = (state, action) => {
-  console.log(state.loading);
   switch (action.type) {
     case "GET_USER":
       return {

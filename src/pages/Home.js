@@ -18,7 +18,6 @@ const Home = () => {
   // get user data
   const handleUserSearch = (search) => {
     if (search) {
-      console.log("search is truthy");
       setInitialLoad(false);
       setSearchQuery(search);
     }
@@ -36,17 +35,14 @@ const Home = () => {
     return `${day}-${month}-${year}`;
   };
 
-  console.log(initialLoad);
-  // console.log(searchQuery);
-  console.log(user);
-  console.log(error);
-  // console.log(theme);
-
   return (
-    <main className="bg-lighter h-screen font-mono ">
+    <section className="bg-lighter dark:bg-darker h-screen font-mono ">
       <div className=" px-3 pt-10 md:max-w-3xl md:mx-auto">
         <div className=" flex justify-between items-center">
-          <h1 className="font-bold text-lg text-dark">devfinder</h1>
+          <h1 className="font-bold text-lg text-dark dark:text-white">
+            devfinder
+          </h1>
+
           {theme === "light" ? (
             <Button
               className="flex items-center gap-3"
@@ -57,7 +53,7 @@ const Home = () => {
             </Button>
           ) : (
             <Button
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 dark:text-white"
               onClick={() => setTheme("light")}
             >
               <p className="w-1/2 text-xs uppercase">light</p>
@@ -84,7 +80,7 @@ const Home = () => {
         </Card>
         <Notice />
       </div>
-    </main>
+    </section>
   );
 };
 
