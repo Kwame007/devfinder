@@ -3,7 +3,7 @@ import { Octokit } from "octokit";
 
 // Create a new instance of Octokit
 const octokit = new Octokit({
-  auth: "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",
+  auth: "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",
   userAgent: "devfinder/v1.0.0",
 });
 
